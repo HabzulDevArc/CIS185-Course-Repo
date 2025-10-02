@@ -3,18 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=10.0">
+    <meta name="color-scheme" content="dark light">
     <title>Doin' that dang ol' titlin' thang html'n stuff</title>
     <style>
-        ruby {
-        font-size: 2em;
-    }
+        .center-text {
+            text-align: center;
+        }
 
+        .forest-mode {
+            color: #1e6e33;
+            font-size: 38px;
+            font-family: Garamond;
+        }
+
+        .center-text img {
+            display: block;
+            margin: 0 auto;
+            max-width: 400px;
+        }
+        
+        .taco-style {
+            color: #e0c52d;
+            font-size: 38px;
+            font-family:'Courier New', Courier, monospace
+        }
+
+        .majora-style {
+            color:#8115bf;
+            font-size: 30px;
+            font-family: 'Arial Narrow Bold'
+        }
     </style>
     
 </head>
 <body>
-    <h1>This header is here fyi</h1>
+    <h1 style="font-size: 45px;" class="center-text">This header is here fyi</h1>
     <hr>
-    <p>Here's some text to keep things <ruby>flowing<rp>(</rp><rt>like water</rt><rp>)</rp> </ruby>.</p>
+    <p style="font-size: 30px;" class="center-text"><ruby>Here's<rp>(</rp><rt>where?</rt><rp>)</rp> </ruby> some text to keep things <ruby>flowing.<rp>(</rp><rt>like water</rt><rp>)</rp> </ruby><br>
+        It's 6 am and the <ruby>~madness~<rp>(</rp><rt>like a dream</rt><rp>)</rp> </ruby> is setting in.<br>
+        I feel an <ruby>otherworldly<rp>(</rp><rt>voidbourne</rt><rp>)</rp></ruby> <ruby>presence lurking just beyond threshold<rp>(</rp><rt>stalking, hunting,
+        biding it's time</rt><rp>)</rp> </ruby> of my senses.</p>
+    <hr>
+    <h2 class="forest-mode center-text">You traverse a dense, dark woodland.</h2>
+    <pre style="color: #1e6e33;" class="center-text">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠓⠒⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⠀⠀⠀⠀⠀⢠⢤⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠔⠒⠒⠤⡎⠀⠀⢹⡃⢀⣀⠀⠑⠃⠀⠈⢀⠔⠒⢢⠀⠀⠀⡖⠉⠉⠉⠒⢤⡀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠔⠚⠙⠒⠒⠒⠤⡎⠀⠀⠀⠀⢀⣠⣴⣦⠀⠈⠘⣦⠑⠢⡀⠀⢰⠁⠀⠀⠀⠑⠰⠋⠁⠀⠀⠀⠀⠀⠈⢦⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠁⠀⠀⠀⠀⠀⠀⢰⠃⠀⣀⣀⡠⣞⣉⡀⡜⡟⣷⢟⠟⡀⣀⡸⠀⡎⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⣻⠀⠀⠀⠀
+⢰⠂⠀⠀⠀⠀⠀⠀⠀⣗⠀⠀⢀⣀⣀⣀⣀⣀⣓⡞⢽⡚⣑⣛⡇⢸⣷⠓⢻⣟⡿⠻⣝⢢⠀⢇⣀⡀⠀⠀⠀⢈⠗⠒⢶⣶⣶⡾⠋⠉⠀⠀⠀⠀⠀
+⠈⠉⠀⠀⠀⠀⠀⢀⠀⠈⠒⠊⠻⣷⣿⣚⡽⠃⠉⠀⠀⠙⠿⣌⠳⣼⡇⠀⣸⣟⡑⢄⠘⢸⢀⣾⠾⠥⣀⠤⠖⠁⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⢀⠀⠀
+⠀⠀⠀⢰⢆⠀⢀⠏⡇⠀⡀⠀⠀⠀⣿⠉⠀⠀⠀⠀⠀⠀⠀⠈⢧⣸⡇⢐⡟⠀⠙⢎⢣⣿⣾⡷⠊⠉⠙⠢⠀⠀⠀⠀⠀⢸⡇⢀⠀⠀⠀⠀⠈⠣⡀
+⠀⠀⠀⠘⡌⢣⣸⠀⣧⢺⢃⡤⢶⠆⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣟⠋⢀⠔⣒⣚⡋⠉⣡⠔⠋⠉⠉⢰⡤⣇⠀⠀⠀⠀⢸⡇⡇⠀⠀⠀⠀⠀⠀⠸
+⠀⠀⠀⠀⠑⢄⢹⡆⠁⠛⣁⠔⠁⠀⣿⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⣿⢠⡷⠋⠁⠀⠈⣿⡇⠀⠀⠀⠈⡇⠉⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠑⣦⡔⠋⠁⠀⠀⠀⣿⠀⠀⢠⡀⢰⣼⡇⠀⡀⠀⠀⣿⠀⠁⠀⠀⠀⠀⣿⣷⠀⠀⠀⠀⡇⠀⠀⢴⣤⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢰⣿⡇⠀⠀⠀⠀⠀⣿⡀⠀⢨⣧⡿⠋⠀⠘⠛⠀⠀⣿⠀⠀⢀⠀⠀⠀⣿⣿⠀⠀⠀⠀⢲⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⠀⠀⠀⠀⢸⡧⡄⠀⠹⣇⡆⠀⠀⠀⠀⠀⣿⠀⢰⣏⠀⣿⣸⣿⣿⠀⠀⠀⠀⣼⠀⠀⠰⠗⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⠀⠀⠀⠀⢸⡇⣷⣛⣦⣿⢀⠈⠑⠀⢠⡆⣿⠐⢠⣟⠁⢸⠸⣿⣿⢱⣤⢀⠀⣼⠀⠀⢀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⢀⠀⠀⠀⢸⡇⠘⠫⣟⡇⠊⣣⠘⠛⣾⡆⢿⠀⠙⣿⢀⣘⡃⣿⣿⡏⠉⠒⠂⡿⠀⠰⣾⡄⠀⢸⣇⢿⡿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠸⣿⡇⠀⠘⣾⠀⠀⢸⡇⢸⣇⡙⠣⠀⣹⣇⠀⠈⠧⢀⣀⣀⡏⣸⣿⣇⢹⣿⡇⢴⣴⣄⣀⡀⢰⣿⡇⠀⢸⣇⢿⡿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠓⠁⠈⠻⢷⠾⠦⠤⠬⣅⣹⣿⣖⣶⣲⣈⡥⠤⠶⡖⠛⠒⠛⠁⠉⠛⠮⠐⢛⡓⠒⢛⠚⠒⠒⠒⠛⣚⣫⡼⠿⠿⣯⠛⠤⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠉⡉⠉⠁⠀⠀⠘⠓⠀⠀⠀⠀⠀⣀⣞⡿⡉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣶⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</pre>
+<h3 class="forest-mode center-text">The game trail forks, both paths obscured by the gloom. Which way do you go?</h3>
+<div class="center-text">
+    <button onclick="showImage('img1')">Go Left?</button>
+    <button onclick="showImage('img2')">Go Right?</button>
+</div>
+
+<div class="center-text">
+    <img id="img1" src="0111.jpg" alt="Left Path" style="display:none;">
+    <img id="img2" src="15672587_1183747581662410_7439675346026905049_n.jpg" alt="Right Path" style="display:none;">
+</div>
+<div class="center-text">
+    <p id="msg1" style="margin-bottom: 30px;display:none;" class="taco-style">Hurray Tacos!</p>
+    <p id="msg2" style="margin-bottom: 30px;display:none;" class="majora-style">You've met with a terrible fate, haven't you?</p>
+</div>
+<script>
+function showImage(imgId) {
+    // Hide both images
+    document.getElementById('img1').style.display = 'none';
+    document.getElementById('img2').style.display = 'none';
+    // Hide both paragraphs
+    document.getElementById('msg1').style.display = 'none';
+    document.getElementById('msg2').style.display = 'none';
+    // Show selected image and paragraph
+    if (imgId === 'img1') {
+        document.getElementById('img1').style.display = 'block';
+        document.getElementById('msg1').style.display = 'block';
+    } else if (imgId === 'img2') {
+        document.getElementById('img2').style.display = 'block';
+        document.getElementById('msg2').style.display = 'block';
+    }
+}
+</script>
 </body>
 </html>
