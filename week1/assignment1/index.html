@@ -33,6 +33,41 @@
             font-size: 30px;
             font-family: 'Arial Narrow Bold'
         }
+
+        .button-style {
+            background-color: black;
+            color: white;
+            border-radius: 25px;
+            cursor: grab;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }   
+
+        .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 100%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
     
 </head>
@@ -66,34 +101,42 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣶⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</pre>
 <h3 class="forest-mode center-text">The game trail forks, both paths obscured by the gloom. Which way do you go?</h3>
 <div class="center-text">
-    <button onclick="showImage('img1')">Go Left?</button>
-    <button onclick="showImage('img2')">Go Right?</button>
+    <button class="button-style" onclick="showImage('tacotuesday')">Go Left?</button>
+    <button class="button-style" onclick="showImage('imsorryjon')">Go Right?</button>
 </div>
 
 <div class="center-text">
-    <img id="img1" src="0111.jpg" alt="Left Path" style="display:none;">
-    <img id="img2" src="15672587_1183747581662410_7439675346026905049_n.jpg" alt="Right Path" style="display:none;">
+    <span class="tooltip">
+        <img id="tacotuesday" src="0111.jpg" alt="Left Path" style="display:none;">
+        <span class="tooltiptext">Time to celebrate!</span>
+    </span>
+    <span class="tooltip">
+        <img id="imsorryjon" src="15672587_1183747581662410_7439675346026905049_n.jpg" alt="Right Path" style="display:none;">
+        <span class="tooltiptext">Who could have forseen this?</span>
+    </span>
 </div>
 <div class="center-text">
-    <p id="msg1" style="margin-bottom: 30px;display:none;" class="taco-style">Hurray Tacos!</p>
-    <p id="msg2" style="margin-bottom: 30px;display:none;" class="majora-style">You've met with a terrible fate, haven't you?</p>
+    <p id="leftmessage" style="margin-bottom: 30px;display:none;" class="taco-style">Hurray Tacos!</p>
+    <p id="rightmessage" style="margin-bottom: 30px;display:none;" class="majora-style">You've met with a terrible fate, haven't you?</p>
 </div>
 <script>
 function showImage(imgId) {
     // Hide both images
-    document.getElementById('img1').style.display = 'none';
-    document.getElementById('img2').style.display = 'none';
+    document.getElementById('tacotuesday').style.display = 'none';
+    document.getElementById('imsorryjon').style.display = 'none';
     // Hide both paragraphs
-    document.getElementById('msg1').style.display = 'none';
-    document.getElementById('msg2').style.display = 'none';
+    document.getElementById('leftmessage').style.display = 'none';
+    document.getElementById('rightmessage').style.display = 'none';
     // Show selected image and paragraph
-    if (imgId === 'img1') {
-        document.getElementById('img1').style.display = 'block';
-        document.getElementById('msg1').style.display = 'block';
-    } else if (imgId === 'img2') {
-        document.getElementById('img2').style.display = 'block';
-        document.getElementById('msg2').style.display = 'block';
+    if (imgId === 'tacotuesday') {
+        document.getElementById('tacotuesday').style.display = 'block';
+        document.getElementById('leftmessage').style.display = 'block';
+    } else if (imgId === 'imsorryjon') {
+        document.getElementById('imsorryjon').style.display = 'block';
+        document.getElementById('rightmessage').style.display = 'block';
     }
+    // Scroll to bottom of the page
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 </script>
 </body>

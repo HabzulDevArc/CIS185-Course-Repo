@@ -17,21 +17,26 @@ While this element seems mostly used to annotate pronounciation of East Asian ch
 ### 3. `<button>`
 Buttons are used to allow users to interact or perform some sort of action on the page. I used 2 buttons to allow the user to select one option or the other. In doing so, the button when pressed would run a script that reveals an image with adjoined text depending on which button was pressed. 
 
-### 4. `<pre>`
+### 4. `<img>` 
+This element is used to display an image from a file location or web page. I added two image files to the assignment1 folder for this index.html file to be displayed when the user clicks one of the two buttons on the page. 
+
+### 5. `<pre>`
 This element is used to display text exactly as it is formatted and I used it to ensure some ASCII art of a forest maintained it's structural integrity as it was loaded on the page.
 
-### 5. `<script>`
+### 6. `<script>`
 The script element allows you to add code that can be executed within the page. In this assignment, I attached the script that displays an image and corresponding text to the buttons. When the user clicks one of the buttons, it runs the script which checks which button was pressed then displays the corresponding image and text on the screen. 
 
 ## CSS Stylings
-
+I created a few style classes for the different portions of text displayed that altered the color, size and font as well as one for centering the element on the page. Also created a style for buttons that changes the color, shape, and grab cursor when moused over. Finally, I added tooltips that appear when the images are hovered over and applied a styling to the tooltips. The tooltips start invisible and fade into complete opacity over the course of 2 seconds. 
 
 
 ## Credits:
-1. Ascii art forest from "https://emojicombos.com/forest-ascii-art"
+1. Ascii art forest from (https://emojicombos.com/forest-ascii-art)
 2. Copilot for the script to add button functionality
-3. The Jieb, an artist I follow at "https://twitter.com/the_jieb?lang=en" for both the images used here
+3. The Jieb, an artist I follow at (https://twitter.com/the_jieb?lang=en) for both the images used here
 4. Professor Zak Hussain for the template for this README.md file
+5. List of HTML elements from (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements#see_also)
+6. Description and formatting of tooltips from (https://www.w3schools.com/css/css_tooltip.asp)
 
 ## Files Included
 
