@@ -10,38 +10,117 @@
     <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="grid-container">
-        <header class="header">
+    <section class="grid-container">
+        <div class="header">
             <img src="images/gengysus.jpg" alt="Gengar lookin' kinda sus" class="flipped" style="height:200px;";/>
             <div>
                 <h1>Greetings Mortal</h1>
                 <p>Who dares enter the domain of Hab'zul?</p>
             </div>    
             <img src="images/gengysus.jpg" alt="Gengar lookin' kinda sus in the other direction" style="height:200px"/>
-        </header>
+        </div>
         
-        <hero class="hero">
+        <div class="hero">
             <img src="images/crygar.jpg" class="circle-border-image" alt="Gengar weeps at the state of the world">
             <h2>Look on my Works, ye Mighty, and Despair!</h2>
             <p>Welcome to my little abode that may or may not house my various works. Peruse my humble collection but tarry not too long lest thee find the abyss to be gazing back.</p>
-        </hero>    
+        </div>    
 
+        <div class="sidebar">
+            <h2>Gimme Dollars</h2>
+            <p>I'll put whatever you want here</p>
+            <p>and I mean anything for the right price</p>
+            <p>(I am not legally responsible for<br>offensive or illegal content<br>displayed on this sidebar)</p>
+        </div>
+        
         <nav class="navbar">
-            <h2>Cartography</h2>
-            <ul>
-                <li>Projects</li>
-                <li>Grease-stained Art</li>
-                <li>About</li>
-            </ul>
+            <div>
+                <h2>Cartography</h2>
+                <ul>
+                    <li><a href="#about"><u>About</a></u></li>
+                    <li><a href="#grease"><u>Grease-stained Art</a></u></li>
+                    <li><a href="#projects"><u>Projects</a></u></li>
+                </ul>
+            </div>    
         </nav>
+    </section>
 
-        <main class="main">
-            <h2>Welcome To My Domain</h2>
-            <p>some stuff for now frfr</p>
-            <p>more stuff</p>
-        </main>
+    <section>
+        <div id="about" class="about">
+            <h2>~Welcome To My Domain~</h2>
+            <p>My name is William Allen. I am a student, a pizza delivery driver and an extremely amateur software developer.
+            I am currently pursuing a Software Development Associates degree at South Puget Sound Community College.
+            I thoroughly enjoy the challenge of learning new things, especially in the realm of computer science. As this page
+            can attest, my artistic and design sensibilities needs be honed to a much sharper edge before seeking employ anywhere
+            I might be asked to design the customer facing aspects of a project.</p>
+            <p>Aside from that, I love gaming in a variety of forms. I play, mostly on pc, all sorts of videogames as well as table-top
+            games like Pathfinder and DnD, Magic: the Gathering and select boardgames. That's probably it for now. Feel free to
+            contact me below with any questions, concerns, or collaboration invitations! Catch ya on the flip side, whatever that means.</p>
+            <textarea>Enter your email</textarea>
+            <button type="button" onclick="alert('Oops! The void has devoured your data as it will one day claim us all!')">Submit!</button>
+        </div>
+    </section>
+    <div>
+        <h2 id="grease" class="sectionhead">Take a Peeksie-Daisey At My Greasy Art</h2>
+    </div>
+    <section class="flex-container">
+        <div>
+            <img src="images/grease-stained art/banana4scale.jpg" alt="a banana with objections";/>
+        </div>
+        <div>
+            <img src="images/grease-stained art/cutedog.jpg" alt="really cute dog";/>
+        </div>
+        <div>
+            <img src="images/grease-stained art/doomjoke.jpg" alt="not actually a joke tbh";/>
+        </div>
+        <div>
+            <img src="images/grease-stained art/gangcat.jpg" alt="a real tough guy of a kitty";/>
+        </div>
+        <div>
+            <img src="images/grease-stained art/hadto.jpg" alt="an elephant never didn't have to do it to em";/>
+        </div>
+        <div>
+            <img src="images/grease-stained art/modernart.jpg" alt="a drawing of a painting of a portrait";/>
+        </div>
+        <div>
+            <img src="images/grease-stained art/moo.jpg" alt="a nice cow or hippo or something";/>
+        </div>
+        <div>
+            <img src="images/grease-stained art/mrow.jpg" alt="cat go mrow";/>
+        </div>
+        <div>
+            <img src="images/grease-stained art/mrowbentleg.jpg" alt="cat with weird leg go mrow";/>
+        </div>
+    </section>
+    <div>
+        <h2 id="projects" class="sectionhead">Projects</h2>
+    </div>
+    <section class="flex-container-card">
+        <div class="card">
+            <img src="images/gregslistcard.jpg" alt="greg's list card" style="width: 100%";/>
+            <div class="card-container">
+                <h3><b><u>Greg's List</u></b></h3>
+                <p>The preeminent platform for divorced dad's used car buying needs!</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="images/primegif.gif" alt="that's just prime" style="width: 100%";/>
+            <div class="card-container">
+                <h3><b><u>Beast Wars GACHA Mobile Scam Game</u></b></h3>
+                <p>This isn't a real project, I just don't have anything else going on yet...</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="images/seasons greeting.PNG" alt="I don't even know where to start" style="width: 100%";/>
+            <div class="card-container">
+                <h3><b><u>Great Works of Art Laundering Service</u></b></h3>
+                <p>Again, I really don't have a lot going on, I'm just trying to learn some new skills here and get into public sector probably.</p>
+            </div>
+        </div>
+    </section>
+    <div>
         <footer class="footer">
-            <p>Skrunt Chuntin' till the end of days</p>
+            <p>Skrunt Chuntin' till the end of days • © 2025</p>
         </footer>
     </div>
 </body>
