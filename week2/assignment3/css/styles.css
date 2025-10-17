@@ -7,6 +7,12 @@ html {
   background-color: #852492;
 }
 
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 .flipped {
   transform: scaleX(-1);
 }
