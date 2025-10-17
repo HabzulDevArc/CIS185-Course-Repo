@@ -27,6 +27,7 @@ html {
         "navbar navebar navbar"; 
         /* move footer out of grid to bottom of page */
 
+    grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 200px 2fr 200px;    
     min-height: 90vh;
     gap: 8px;
