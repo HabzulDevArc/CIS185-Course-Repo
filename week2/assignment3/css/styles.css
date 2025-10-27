@@ -10,7 +10,10 @@ img {
   max-width: 100%;
   height: auto;
 }
-
+.grease-img {
+  width: 20%;
+  height: auto;
+}
 .flipped {
   transform: scaleX(-1);
 }
@@ -57,7 +60,7 @@ img {
 
 .header  {grid-area: header; background: #887291; display: flex; align-items: center; text-align: center;
           justify-content: space-between;}
-.navbar  {grid-area: navbar; background: #887291; display: flex; align-items: center; justify-content: center;}
+.navbar-custom  {grid-area: navbar; background: #887291; display: flex; align-items: center; justify-content: center;}
 .sidebar {grid-area: sidebar; background:#887291;}
 .footer  {grid-area: footer; background: #887291;}
 .about   {display: flex; flex-direction: column; align-content: 100%; justify-content: center; align-items: center;}
@@ -79,43 +82,43 @@ img {
   text-align: center;
 }
 
-.navbar ul {
+.navbar-custom ul {
   display:flex;
   flex-direction: row;
   list-style: none;
   gap: 2em;
 }
 
-.navbar h2 {
+.navbar-custom h2 {
   display: flex;
   justify-content: center;
 }
 
-.navbar ul a {
+.navbar-custom ul a {
   font-size: 20px;
   display: block;
   color:darkorange;
   padding: 8px;
 }
 
-.navbar ul a:hover {
+.navbar-custom ul a:hover {
   background-color:indigo;
   cursor: pointer;
 }
 
-.card {
+.card-custom {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 20%;
   background-color: cornsilk;
 }
 
-.card:hover {
+.card-custom:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
   cursor: pointer;
 }
 
-.card-container {
+.card-custom-container {
   padding: 4px 8px;
 }
 
