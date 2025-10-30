@@ -2,16 +2,20 @@
 // William Allen
 // 10/23/25
 
+
+// straight forward, function takes input and does math to it and spits out converted number
 function celsiusToFahrenheit(celsius) {
     const fahrenheit = (celsius * 9/5) + 32;
     return fahrenheit;
 }
 
+// same as above but backwards
 function fahrenheitToCelsius(fahrenheit) {
     const celsius = (fahrenheit - 32) * 5/9;
     return celsius; 
 }
 
+// checks each if statement in order if input meets condition, when it does, returns corresponding string and stops checking. 
 function getTemperatureDescription(fahrenheit) {
     if (fahrenheit < 32) return "Freezing";
     if (fahrenheit < 50) return "Cold";
