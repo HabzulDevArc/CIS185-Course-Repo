@@ -35,9 +35,19 @@ function rotateArray(arr, position) {
 }
 
 function findSecondLargest(numbers) {
-
+numbers.sort((a, b) => b - a);                   // sorts array highest to lowest
+numbers = numbers.filter((value, index, array) => array.indexOf(value) === index);  // filters array to only include unique values  
+if (numbers.length > 1){                         // if there are less than 2 numbers, there can be no second largest
+    let secondLargest = numbers[1];              // 2nd number in ordered array will be second largest if there is one
+    return secondLargest;
+}
+else 
+    return null;
+    
 }
 
+
+// make new array take arr.length - 1, comapre value with rest of original array to determine if another is higher. if arr.length < 2, return null
 // Test Cases
 console.log(reverseArray([1, 2, 3, 4]));
 console.log(reverseArray(["a", "b", "c"]));
@@ -50,5 +60,5 @@ console.log(rotateArray([1, 2, 3, 4], 1));
 console.log(rotateArray([1, 2, 3, 4], 2));
 console.log(rotateArray([1, 2, 3], 4));
 
-console.log(findSecondLargest(5, 5, 5));
+console.log(findSecondLargest([5, 5, 5]));
 console.log(findSecondLargest([100, 50, 100, 75]));
