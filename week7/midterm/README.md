@@ -1,0 +1,1 @@
+Initial idea for how to move an object in canvas on mouse click coopted and retrofitted from: https://jsfiddle.net/m1erickson/GHSG4/
