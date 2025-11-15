@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var cellSize;
     var pawnSize;
+    var currentX, currentY;
+    var frameCount = 60;
+    var timer;
+    var points;
+    var currentFrame;
+    var offsetX, offsetY;
 
     // scale the labyrith canvas to screen size
     function resizeCanvas(){
@@ -30,13 +36,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
         cellSize = Math.min(cellWidth, cellHeight, 50); 
 
+        canvas.width = columns * cellSize;
+        canvas.height = rows * cellSize;
         pawnSize = cellSize * 0.6; // scale player pawn to fit inside a cell
             
+        // set start location to middle of cell [0, 1]
+        currentX = (1 + 0.5) * cellSize;
+        currentY = (0 + 0.5) * cellSize;
 
         // recalculate the offset after resizing
         var rect = canvas.getBoundingClientRect();
-        var offsetX = rect.left;
-        var offsetY = rect.top;
+        offsetX = rect.left;
+        offsetY = rect.top;
 
         draw(currentX, currentY);
     }
@@ -45,16 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // set start location to middle of cell [0, 1]
-    var currentX = (1 + 0.5) * cellSize;
-    var currentY = (0 + 0.5) * cellSize;
-    var frameCount = 60;
-    var timer;
-    var points;
-    var currentFrame;
-    var offsetX, offsetY;
-
-    // draws the maze filling in all 1s from the array with wall sections
+    // draws the labyrinth filling in all 1s from the array with wall sections
     function drawLaby() {
         ctx.fillStyle = "#2c3e50";
         for (var row = 0; row < laby.length; row++) {
@@ -66,16 +68,63 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // converts pixel to coordinates to position on the grid and checks if that cell is a wall
+    function wallCheck(x, y) {
+        var col = Math.floor(x / cellSize);
+        var row = Math.floor(y / cellSize);
+
+        if (row < 0 || row >= laby.length || col < 0 || col >= laby[0].length) {
+            return true;
+        }
+
+        return laby[row][col] === 1;
+    }
+
+    function collisionCheck(x, y) {
+        var halfSize = pawnSize / 2;
+
+        var corners = [
+            {x: x - halfSize, y: y - halfSize},
+            {x: x + halfSize, y: y - halfSize},
+            {x: x - halfSize, y: y + halfSize},
+            {x: x + halfSize, y: y + halfSize}
+        ]
+        // check each corner if it's touching a wall portion of the labyrinth
+        for (var i = 0; i < corners.length; i++) {
+            if (wallCheck(corners[i].x, corners[i].y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function animate() {
-        if (currentFrame >= point.length) {  // prevents animation from accessing invalid array indices
+        if (currentFrame >= points.length) {  // prevents animation from accessing invalid array indices
             return;
         }
         var point = points[currentFrame++];
+        
+        if (collisionCheck(point.x, point.y)) { // check for collision before moving
+            timer = null;
+            if (currentFrame > 1) {  // draws pawn at the last valid position before collision
+                var lastValidPoint = points[currentFrame - 2];
+                currentX = lastValidPoint.x;
+                currentY = lastValidPoint.y;
+                draw(currentX, currentY);
+            }
+            return;
+        }
+
         draw(point.x, point.y);
 
         // refire the timer until out-of-points
         if (currentFrame < points.length) {
             timer = setTimeout(animate, 1000 / 60);
+        }
+        else {  //animation is completed and update current position and clear timer
+            currentX = point.x;
+            currentY = point.y;
+            timer = null;
         }
     }
 
@@ -116,20 +165,20 @@ document.addEventListener('DOMContentLoaded', function() {
         var mouseX = e.clientX - rect.left;
         var mouseY = e.clientY - rect.top;
         
-        // cencel current animation when animation is interrupted with new click and starts new animation
+        // cancel current animation when animation is interrupted with new click and starts new animation from where the pawn is when click occurs
         if (timer) {
             clearTimeout(timer);
+            if (points && currentFrame > 0 && currentFrame < points.length) {
+                var lastPoint = points[currentFrame - 1];
+                currentX = lastPoint.x;
+                currentY = lastPoint.y;
+            }
         }
         
         points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
         currentFrame = 0;
-        currentX = mouseX;
-        currentY = mouseY;
         animate();
     }
 
     canvas.addEventListener('mousedown', handleMouseDown);
-
-    // draw the player pawn at set starting location
-    draw(currentX, currentY);
 });
