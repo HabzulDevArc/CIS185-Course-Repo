@@ -21,20 +21,29 @@ document.addEventListener('DOMContentLoaded', function() {
     var points;
     var currentFrame;
     var offsetX, offsetY;
+    
+    // counts how many times pawn has moved
+    var clickCount = 0;
+    var pendingMove = false;
+    var moveStartX, moveStartY;
 
+    function updateClickCounter() {
+        document.getElementById("clickTracker").textContent = "Click Counter: " + clickCount;
+    }
+    updateClickCounter(); 
     // scale the labyrith canvas to screen size
     function resizeCanvas(){
-        var maxWidth = window.innerWidth * 0.9;
-        var maxHeight = window.innerHeight * 0.7;
+        canvas.width = window.innerWidth * 0.9;
+        canvas.hieght = window.innerHeight * 0.7;
 
         var columns = laby[0].length;   // number of colmuns in labyrinth structure
         var rows = laby.length;         // number of rows
 
         // determine the size of each cell based on screen size, max size of 50 px
-        var cellWidth = Math.floor(maxWidth / columns); 
-        var cellHeight = Math.floor(maxHeight / rows);
+        var cellWidth = Math.floor(canvas.width / columns); 
+        var cellHeight = Math.floor(canvas.hieght / rows);
 
-        cellSize = Math.min(cellWidth, cellHeight, 50); 
+        cellSize = Math.min(cellWidth, cellHeight, 100); 
 
         canvas.width = columns * cellSize;
         canvas.height = rows * cellSize;
@@ -99,19 +108,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function animate() {
-        if (currentFrame >= points.length) {  // prevents animation from accessing invalid array indices
+        // prevents animation from accessing invalid array indices
+        if (currentFrame >= points.length) {  
             return;
         }
         var point = points[currentFrame++];
-        
-        if (collisionCheck(point.x, point.y)) { // check for collision before moving
+        // check for collision before moving
+        if (collisionCheck(point.x, point.y)) { 
+            // if a collision is detected, stop the animation
             timer = null;
-            if (currentFrame > 1) {  // draws pawn at the last valid position before collision
+            // draws pawn at the last valid position before collision
+            if (currentFrame > 1) {  
                 var lastValidPoint = points[currentFrame - 2];
                 currentX = lastValidPoint.x;
                 currentY = lastValidPoint.y;
                 draw(currentX, currentY);
             }
+            // updates click counter if pawn actually moved
+            if (pendingMove && (currentX !== moveStartX || currentY !== moveStartY)) {
+                clickCount++;
+                updateClickCounter();
+            }
+            pendingMove = false;
             return;
         }
 
@@ -121,10 +139,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentFrame < points.length) {
             timer = setTimeout(animate, 1000 / 60);
         }
-        else {  //animation is completed and update current position and clear timer
+        //animation is completed and update current position and clear timer
+        else {  
             currentX = point.x;
             currentY = point.y;
             timer = null;
+            // updates click counter if pawn actually moved
+            if (pendingMove && (currentX !== moveStartX || currentY !== moveStartY)) {
+                clickCount++;
+                updateClickCounter();
+            }
         }
     }
 
@@ -164,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var rect = canvas.getBoundingClientRect();
         var mouseX = e.clientX - rect.left;
         var mouseY = e.clientY - rect.top;
+         // current coordinates are same as starting coordinates, return else up counter and refresh text
         
         // cancel current animation when animation is interrupted with new click and starts new animation from where the pawn is when click occurs
         if (timer) {
@@ -173,8 +198,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentX = lastPoint.x;
                 currentY = lastPoint.y;
             }
+
+            // updates click counter when pawn changes movement in the middle of another movement.
+            if (pendingMove && (currentX !== moveStartX || currentY !== moveStartY)) {
+                clickCount++;
+                updateClickCounter();
+            }
         }
         
+        moveStartX = currentX;
+        moveStartY = currentY;
+        pendingMove = true;
+
         points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
         currentFrame = 0;
         animate();
