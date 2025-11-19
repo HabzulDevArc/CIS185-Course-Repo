@@ -99,10 +99,10 @@ document.addEventListener('DOMContentLoaded', function() {
         for (var i = 0; i < scoreboard.length; i++){
             var player = scoreboard[i];
             if (player.escaped){
-                heroesText += player.name + " escaped in " + player.clicks + " moves as " + player.pawn + "." + "<br>";
+                heroesText += player.name + " escaped in " + player.clicks + " moves as " + player.pawn + "." + "<br><br>";
             }
             else {
-                fallenText += player.name + " fell at the hands of the Minotaur as " + player.pawn + "." + "<br>";
+                fallenText += player.name + " fell at the hands of the Minotaur as " + player.pawn + "." + "<br><br>";
             }
         }
 
