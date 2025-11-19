@@ -9,11 +9,36 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <div class="mb-3" id="charSelect1">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="pawnRadio" id="radio1" value="skrunt">
+            <label class="form-check-label" for="radio1">
+                Skrunt
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="pawnRadio" id="radio2" value="chunt">
+            <label class="form-check-label" for="radio2">
+                Chunt
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="pawnRadio" id="radio3" value="ron">
+            <label class="form-check-label" for="radio3">
+                Ron
+            </label>
+        </div>
+    </div>
+    <div id="charSelect2">
+        <textarea>Who ~are~ you?</textarea>
+        <button type="button" id="charSubmit" onclick="startGame()">Submit!</button>
+    </div>
     <div>
         <p id="clickTracker"></p>
     </div>
     <div class="container d-flex justify-content-center align-items-center vh-100">
-        <canvas id="canvas"></canvas>
+        <canvas id="labyCanvas"></canvas>
     </div>
+    <script src="js/scoreboard.js"></script>
     <script src="js/laby.js"></script>
 </body>

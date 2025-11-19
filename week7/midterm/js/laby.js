@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var canvas = document.getElementById("canvas");
+    var canvas = document.getElementById("labyCanvas");
     var ctx = canvas.getContext("2d");
 
     // labyrinth layout as an array of arrays, 1 represent wall sections, 0 represent traversable halls
@@ -7,10 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
         [1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
-        [1, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+        [1, 2, 1, 0, 0, 0, 1, 0, 0, 1],
         [1, 0, 1, 1, 1, 0, 1, 0, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        [1, 1, 1, 1, 1, 1, 1, 1, 3, 1]
     ];
 
     var cellSize;
@@ -29,8 +29,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateClickCounter() {
         document.getElementById("clickTracker").textContent = "Click Counter: " + clickCount;
+        if (typeof updateClicks === 'function' && currentPlayer) {
+            updateClicks(clickCount);
+        }
     }
     updateClickCounter(); 
+
     // scale the labyrith canvas to screen size
     function resizeCanvas(){
         canvas.width = window.innerWidth * 0.9;
@@ -67,10 +71,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // draws the labyrinth filling in all 1s from the array with wall sections
     function drawLaby() {
-        ctx.fillStyle = "#2c3e50";
         for (var row = 0; row < laby.length; row++) {
             for (var col = 0; col < laby[row].length; col++) {
                 if (laby[row][col] === 1) {
+                    ctx.fillStyle = "#444A50FF";
+                    ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                }
+                else if (laby[row][col] === 2) {
+                    ctx.fillStyle = "#553317FF";
+                    ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                }
+                else if (laby[row][col] === 3) {
+                    ctx.fillStyle = "#5C5710FF";
                     ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
                 }
             }
@@ -82,13 +94,50 @@ document.addEventListener('DOMContentLoaded', function() {
         var col = Math.floor(x / cellSize);
         var row = Math.floor(y / cellSize);
 
+        // if click is outside the maze, treat it as a wall, prevents movement
         if (row < 0 || row >= laby.length || col < 0 || col >= laby[0].length) {
             return true;
         }
-
+        // returns true if section is 1 aka wall
         return laby[row][col] === 1;
     }
 
+    // same as wallCheck but for door cells
+    function doorCheck(x, y) {
+        var col = Math.floor(x / cellSize);
+        var row = Math.floor(y / cellSize);
+
+        if (row < 0 || row >= laby.length || col < 0 || col >= laby[0].length) {
+            return true;
+        }
+        // returns true if section is 2 aka door
+        return laby[row][col] === 2;
+    }
+
+    // check if collision is final door aka 3
+    function escapeCheck(x, y) {
+        var col = Math.floor(x / cellSize);
+        var row = Math.floor(y / cellSize);
+
+        if (row === 6 && col === 8) {
+            if (typeof markEscaped == 'function') {
+                markEscaped();
+                alert('Congratulations! You escaped in ' + clickCount + ' clicks!');
+                canvas.style.display = 'none';
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // when collision with door cell, door opens and changes to floor cell
+    function openDoor(x, y) {
+        var col = Math.floor(x / cellSize);
+        var row = Math.floor(y / cellSize);
+        laby[row][col] = 0;
+    }
+
+    // determines if the pawn collides with a wall or door and returns the point of collision if true and what it collided with
     function collisionCheck(x, y) {
         var halfSize = pawnSize / 2;
 
@@ -101,10 +150,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // check each corner if it's touching a wall portion of the labyrinth
         for (var i = 0; i < corners.length; i++) {
             if (wallCheck(corners[i].x, corners[i].y)) {
-                return true;
+                return {collision: true, isDoor: false, x: corners[i].x, y: corners[i].y};
+            }
+            if (doorCheck(corners[i].x, corners[i].y)) {
+                return {collision: true, isDoor: true, x: corners[i].x, y: corners[i].y}
             }
         }
-        return false;
+        return {collision: false};
     }
 
     function animate() {
@@ -113,10 +165,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         var point = points[currentFrame++];
+
         // check for collision before moving
-        if (collisionCheck(point.x, point.y)) { 
+        var collision = collisionCheck(point.x, point.y);
+
+        if (collision.collision) { 
             // if a collision is detected, stop the animation
             timer = null;
+            escapeCheck(currentX, currentY);
             // draws pawn at the last valid position before collision
             if (currentFrame > 1) {  
                 var lastValidPoint = points[currentFrame - 2];
@@ -130,6 +186,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateClickCounter();
             }
             pendingMove = false;
+
+            // if it was a door that stopped the movement, open and redraw map with no door in that spot
+            if (collision.isDoor) {
+                openDoor(collision.x, collision.y);
+                draw(currentX, currentY);
+                }
             return;
         }
 
@@ -144,10 +206,12 @@ document.addEventListener('DOMContentLoaded', function() {
             currentX = point.x;
             currentY = point.y;
             timer = null;
+        
             // updates click counter if pawn actually moved
             if (pendingMove && (currentX !== moveStartX || currentY !== moveStartY)) {
                 clickCount++;
                 updateClickCounter();
+                escapeCheck(currentX, currentY);
             }
         }
     }

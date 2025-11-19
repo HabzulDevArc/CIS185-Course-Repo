@@ -3,3 +3,11 @@
     justify-content: center;
     flex: d-flex;
 }
+
+#labyCanvas {
+    display: none;
+}
+
+#charSelect {
+    display: unset;
+}
