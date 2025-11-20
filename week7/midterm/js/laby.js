@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     var canvas = document.getElementById("labyCanvas");
     var ctx = canvas.getContext("2d");
+    var retryButton = document.getElementById("retry");
+    var defeatImage = document.getElementById("defeat");
 
     // labyrinth layout as an array of arrays, 1 represent wall sections, 0 represent traversable halls
     var laby = [
@@ -21,7 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var points;
     var currentFrame;
     var offsetX, offsetY;
-    
+    var minoCaught = false;
+
     // counts how many times pawn has moved
     var clickCount = 0;
     var pendingMove = false;
@@ -35,17 +38,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateClickCounter(); 
 
+    // checks if the minotaur catches the player then displays defeat screen
+    function minoCheck() {
+        if (clickCount < 15){
+            return;
+        }
+        else{
+            minoCaught = true;
+            canvas.style.display = 'none';
+            retryButton.style.display = 'block';
+            defeatImage.style.display = "unset";
+        }
+    }
+
     // scale the labyrith canvas to screen size
     function resizeCanvas(){
         canvas.width = window.innerWidth * 0.9;
-        canvas.hieght = window.innerHeight * 0.7;
+        canvas.height = window.innerHeight * 0.7;
 
         var columns = laby[0].length;   // number of colmuns in labyrinth structure
         var rows = laby.length;         // number of rows
 
         // determine the size of each cell based on screen size, max size of 50 px
         var cellWidth = Math.floor(canvas.width / columns); 
-        var cellHeight = Math.floor(canvas.hieght / rows);
+        var cellHeight = Math.floor(canvas.height / rows);
 
         cellSize = Math.min(cellWidth, cellHeight, 100); 
 
@@ -124,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 markEscaped();
                 alert('Congratulations! You escaped in ' + clickCount + ' clicks!');
                 canvas.style.display = 'none';
+                retryButton.style.display = 'block';
             }
             return true;
         }
@@ -184,6 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (pendingMove && (currentX !== moveStartX || currentY !== moveStartY)) {
                 clickCount++;
                 updateClickCounter();
+                minoCheck();
             }
             pendingMove = false;
 
@@ -211,7 +229,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (pendingMove && (currentX !== moveStartX || currentY !== moveStartY)) {
                 clickCount++;
                 updateClickCounter();
-                escapeCheck(currentX, currentY);
+                minoCheck();
+            }
+            // minotaur snatches your defeat from the jaws of victory
+            if (!minoCaught){
+            escapeCheck(currentX, currentY);
             }
         }
     }
@@ -266,6 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // updates click counter when pawn changes movement in the middle of another movement.
             if (pendingMove && (currentX !== moveStartX || currentY !== moveStartY)) {
                 clickCount++;
+                minoCheck();
                 updateClickCounter();
             }
         }
@@ -277,6 +300,10 @@ document.addEventListener('DOMContentLoaded', function() {
         points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
         currentFrame = 0;
         animate();
+
+        // end game with defeat screen if minoCaught is true
+        minoCheck()
+        
     }
 
     canvas.addEventListener('mousedown', handleMouseDown);

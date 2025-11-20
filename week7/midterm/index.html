@@ -36,9 +36,26 @@
     <div>
         <p id="clickTracker"></p>
     </div>
-    <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="container d-flex justify-content-center align-items-center">
         <canvas id="labyCanvas"></canvas>
     </div>
+    <div>
+        <button type="button" id="retry" onclick="window.location.reload()">Play Again?</button>
+    </div>
+    <div>
+        <p><a href="scoreboard.html"><u>View the records of those who came before</u></a></p>
+    </div>
+    <div class="mb-3" id="defeat">
+        <p>You've fallen at the hands of the Minotaur! Your fate is too gruesome to describe...</p>
+        <img src="images/minotaur.jpg" alt="a terrifying minotaur">
+    </div>
+
+    <div class="col-12">
+        <footer class="footer">
+            <p>Skrunt Chuntin' till the end of days • © 2025 Contact: wra5296@gmail.com</p>
+        </footer>
+    </div>
+    
     <script src="js/scoreboard.js"></script>
     <script src="js/laby.js"></script>
 </body>
