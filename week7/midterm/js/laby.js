@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var retryButton = document.getElementById("retry");
     var defeatImage = document.getElementById("defeat");
 
-    // labyrinth layout as an array of arrays, 1 represent wall sections, 0 represent traversable halls
+    // labyrinth layout as an array of arrays, 1 represent wall sections, 0 represent traversable halls, 3 represents the exit
     var laby = [
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (collision.collision) { 
             // if a collision is detected, stop the animation
             timer = null;
-            escapeCheck(currentX, currentY);
+            
             // draws pawn at the last valid position before collision
             if (currentFrame > 1) {  
                 var lastValidPoint = points[currentFrame - 2];
@@ -197,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentY = lastValidPoint.y;
                 draw(currentX, currentY);
             }
+            escapeCheck(currentX, currentY);
             // updates click counter if pawn actually moved
             if (pendingMove && (currentX !== moveStartX || currentY !== moveStartY)) {
                 clickCount++;
