@@ -77,7 +77,7 @@ function markEscaped() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // clears textbox on focus for name input
+    // clears textbox on focus for name input  ---  this was replaced by remembering placeholder attribute
     var textarea = document.querySelector('textarea');
     textarea.addEventListener('focus', function() {
         if (this.value === "Who ~are~ you?") {
