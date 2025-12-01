@@ -1,6 +1,6 @@
 import TaskItem from './TaskItem'
 
-function TaskList({ tasks, onToggle, onComplete}) {
+function TaskList({ tasks, onToggle, onDelete}) {
     if (tasks.length === 0) {
         return <p className="empty-tasks">You slackin'? Where's ya tasks?</p>
     }
@@ -12,7 +12,7 @@ function TaskList({ tasks, onToggle, onComplete}) {
                     key={task.id}
                     task={task}
                     onToggle={onToggle}
-                    onComplete={onComplete}
+                    onDelete={onDelete}
                 />    
             ))}
         </div>

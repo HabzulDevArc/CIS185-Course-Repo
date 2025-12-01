@@ -1,4 +1,4 @@
-function TaskItem({ task, onToggle, onComplete}) {
+function TaskItem({ task, onToggle, onDelete}) {
     return (
         <div className={`task-item ${task.completed ? 'completed' : ''}`}>
             <input
@@ -8,10 +8,10 @@ function TaskItem({ task, onToggle, onComplete}) {
             />
             <span className="task-text">{task.text}</span>
             <button
-                className="complete-btn"
-                onClick={() => onComplete(task.id)}
+                className="delete-btn"
+                onClick={() => onDelete(task.id)}
             >
-                Complete
+                Delete
             </button>    
         </div>
     )

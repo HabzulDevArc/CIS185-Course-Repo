@@ -27,7 +27,7 @@ function App() {
     ))
   }
 
-  const completeTask = (id) => {
+  const deleteTask = (id) => {
     setTasks(tasks.filter(task => task.id !== id))
   }
 
@@ -52,7 +52,7 @@ function App() {
       <TaskList
         tasks={filteredTasks}
         onToggle={toggleTask}
-        onComplete={completeTask}
+        onDelete={deleteTask}
       />
       <p className="task-count">
         {activeCount} active task{activeCount !== 1 ? 's' : ''} remaining
