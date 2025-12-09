@@ -55,15 +55,11 @@ window.addEventListener('load', function(){
         }
         draw(context) {
             context.strokeStyle = 'white';
-            context.strokeRect(this.x, this.y, this.width, this.height);
             context.beginPath();
             context.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
             context.stroke();
-            context.strokeStyle = 'blue';
-            context.beginPath();
-            context.arc(this.x, this.y, this.width/2, 0, Math.PI * 2);
-            context.stroke();
-            context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
+            context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, 
+                this.width, this.height, this.x, this.y, this.width, this.height);
         }
         update(input, deltaTime, enemies, bossShots){
             // collision detection
@@ -79,7 +75,7 @@ window.addEventListener('load', function(){
                 const dx = (bossShot.x + bossShot.width/2) - (this.x + this.width/2);
                 const dy = (bossShot.y + bossShot.height/2) - (this.y + this.height/2);
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < bossShot.width/2 + this.width/2) {
+                if (distance < this.width/2) {
                     gameOver = true;
                 }
             });
@@ -94,9 +90,9 @@ window.addEventListener('load', function(){
             
             //controls
             if (input.keys.indexOf('ArrowRight') > -1){
-                this.speed = 5;
+                this.speed = 7;
             } else if (input.keys.indexOf('ArrowLeft') > -1) {
-                this.speed = -5;
+                this.speed = -7;
             } else if (input.keys.indexOf('ArrowUp') > -1 && this.onGround()) {
                 this.vy -= 30;
             } else {
@@ -166,13 +162,8 @@ window.addEventListener('load', function(){
         }
         draw(context) {
             context.strokeStyle = 'white';
-            context.strokeRect(this.x, this.y, this.width, this.height);
             context.beginPath();
             context.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
-            context.stroke();
-            context.strokeStyle = 'blue';
-            context.beginPath();
-            context.arc(this.x, this.y, this.width/2, 0, Math.PI * 2);
             context.stroke();
             context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height);
         }
@@ -272,18 +263,12 @@ window.addEventListener('load', function(){
         }
         draw(context) {
             context.strokeStyle = 'white';
-            context.strokeRect(this.x, this.y, this.width, this.height);
             context.beginPath();
             context.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
-            context.stroke();
-            context.strokeStyle = 'blue';
-            context.beginPath();
-            context.arc(this.x, this.y, this.width/2, 0, Math.PI * 2);
             context.stroke();
             context.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height);
         }
 
-        // 
         update(deltaTime){
             if (this.frameTimer > this.frameInterval){
                 this.frameTimer = 0;
@@ -305,16 +290,17 @@ window.addEventListener('load', function(){
             bossShots.push(new BossShot(canvas.width, canvas.height));
             boss.firedThisFrame = true; // stops multiple shots this fram after first
             console.log(bossShots);
+            // fires shot at players location
+            if (antiHomingBool){
+            currentTarget = player.y;
+            antiHomingBool = false;
+            }
         }
         bossShots.forEach(bossShot => {
             bossShot.draw(ctx);
             bossShot.update(deltaTime);
         });
         bossShots = bossShots.filter(bossShot => !bossShot.markedForDeletion);
-        if (antiHomingBool){
-            currentTarget = player.y;
-            antiHomingBool = false;
-        }
     }
 
     function displayStatusText(context){
@@ -351,13 +337,18 @@ window.addEventListener('load', function(){
         //console.log(deltaTime);
         ctx.clearRect(0,0,canvas.width, canvas.height);
         background.draw(ctx);
-        //background.update();
+        if (score < 3){
+            background.update();
+        }    
         player.draw(ctx);
         player.update(input, deltaTime, enemies, bossShots);
-        handleEnemies(deltaTime);
+        //handleEnemies(deltaTime);
         displayStatusText(ctx);
-        boss.draw(ctx);
-        boss.update(deltaTime);
+        //if (score > 2) {
+            boss.draw(ctx);
+            boss.update(deltaTime);
+        //}
+        
         handleBossShot(deltaTime);
         if (!gameOver) requestAnimationFrame(animate);
     }
