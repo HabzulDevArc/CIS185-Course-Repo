@@ -374,13 +374,14 @@ window.addEventListener('load', function(){
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < boss.width/2 + foxFire.width/2 && !foxFire.hitBoss) {
+                boss.isHit = true;
                 foxFire.hitBoss = true;
-                bossHealth--; 
                 console.log('boss is hit, health:' + bossHealth);
                 // hides a skull from right to left when hit
-                if (bossHealth >= 0 && bossHealth < 3) {
-                    skulls[bossHealth].visible = false;
+                if (bossHealth > 0) {
+                    skulls[bossHealth - 1].visible = false;
                 }
+                bossHealth--; 
                 // check for victory condition
                 if (bossHealth <= 0) {
                     gameVictory = true;
@@ -429,6 +430,7 @@ window.addEventListener('load', function(){
             context.fillText('Congratz! You done did it!', canvas.width /2, 200);
             context.fillStyle = 'white';
             context.fillText('Congratz! You done did it!', canvas.width /2 + 2, 202);
+            console.log('victory');
         }
     }
 
@@ -476,7 +478,11 @@ window.addEventListener('load', function(){
         skulls.forEach(skull => skull.draw(ctx));
         handleFoxFire(input, deltaTime);
         handleBossShot(deltaTime);
-        if (!gameOver && !gameVictory) requestAnimationFrame(animate);
+        if (!gameOver && !gameVictory) {
+            requestAnimationFrame(animate);
+        } else {
+            displayStatusText(ctx);
+        }    
     }
     animate(0);
 })
