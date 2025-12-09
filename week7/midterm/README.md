@@ -41,4 +41,4 @@ My professor is the main target audience but otherwise, perhaps children looking
 - Initial method for moving objects in Canvas with JavaScript from: https://jsfiddle.net/m1erickson/GHSG4/ 
 - AI assistance from claude.ai for troubleshooting and stylistic suggestion
 - hurloon.jpg from Wizards of the Coast by Anson Maddocks
--minotaur.jpg from Wizard of the Coast by Dave Dorman
+- minotaur.jpg from Wizard of the Coast by Dave Dorman
