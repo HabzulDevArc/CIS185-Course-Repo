@@ -8,6 +8,6 @@ body {
     transform: translate(-50%,-50%);
     border: 5px solid rgb(190, 89, 89);
 }
-#playerImage, #backgroundImage, #enemyImage, #bossImage, #shotImage {
+#playerImage, #backgroundImage, #enemyImage, #bossImage, #shotImage, #foxFireImage, #skullImage {
     display: none;
 }

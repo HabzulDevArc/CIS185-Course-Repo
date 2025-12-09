@@ -6,9 +6,12 @@ window.addEventListener('load', function(){
     let enemies = [];
     let score = 0;
     let gameOver = false;
+    let gameVictory = false;
     const bossFrames = [[0,0],[0,1],[0,2],[1,0],[1,1],[0,0],[0,1],[0,2],[1,0],[1,1],[0,4],[0,4],[1,4]];
     let bossShots = [];
     let antiHomingBool = true; // to check player location once to prevent homing missile bossShot
+    let foxFireShots = [];
+    let bossHealth = 3; 
 
     class InputHandler {
         constructor(){
@@ -17,7 +20,8 @@ window.addEventListener('load', function(){
                 if ((   e.key === 'ArrowDown' || 
                         e.key === 'ArrowUp' || 
                         e.key === 'ArrowLeft' || 
-                        e.key === 'ArrowRight') 
+                        e.key === 'ArrowRight' ||
+                        e.key === ' ') 
                         && this.keys.indexOf(e.key) === -1){
                     this.keys.push(e.key);
                 }
@@ -27,8 +31,10 @@ window.addEventListener('load', function(){
                 if (    e.key === 'ArrowDown' || 
                         e.key === 'ArrowUp' || 
                         e.key === 'ArrowLeft' || 
-                        e.key === 'ArrowRight'){
+                        e.key === 'ArrowRight' ||
+                        e.key === ' '){
                     this.keys.splice(this.keys.indexOf(e.key), 1);
+
                 }
             });
         }
@@ -217,16 +223,30 @@ window.addEventListener('load', function(){
             this.frameTimer = 0;
             this.frameInterval = 1000/this.fps;
             this.firedThisFrame = false; // tracks boss shot to avoid shooting many times per frame
+            this.isHit = false;
+            this.hitTimer = 0;
+            this.hitDuration = 400;
         }
         draw(context) {
             context.strokeStyle = 'white';
-            context.strokeRect(this.x, this.y, this.width, this.height);
             context.beginPath();
             context.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
             context.stroke();
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
         }
         update(deltaTime) {
+            //
+            if (this.isHit) {
+                this.hitTimer += deltaTime;
+                this.frameX = 3.5;
+                this.frameY = 2;
+
+                if (this.hitTimer >= this.hitDuration) {
+                    this.isHit = false;
+                    this.hitTimer = 0;
+                }
+                return;
+            }
             //animates the boss image based off an array of values that get looped through
             // since they are not all on the same row as in the case of the player and enemy images
             if (this.frameTimer > this.frameInterval){
@@ -277,7 +297,7 @@ window.addEventListener('load', function(){
             }
             this.x -= (this.speed += 0.28) - 5; // increasing velocity projectile 
             this.y -= ((this.y - currentTarget)/100);
-            console.log('speed: ' + this.speed,'current target: ' + currentTarget,'this.y: ' + this.y);
+            //console.log('speed: ' + this.speed,'current target: ' + currentTarget,'this.y: ' + this.y);
             if (this.x < 0 - this.width) {
                 antiHomingBool = true;
                 this.markedForDeletion = true;
@@ -289,7 +309,7 @@ window.addEventListener('load', function(){
         if (boss.currentFrame === 12 && !boss.firedThisFrame) {
             bossShots.push(new BossShot(canvas.width, canvas.height));
             boss.firedThisFrame = true; // stops multiple shots this fram after first
-            console.log(bossShots);
+            //console.log(bossShots);
             // fires shot at players location
             if (antiHomingBool){
             currentTarget = player.y;
@@ -301,6 +321,93 @@ window.addEventListener('load', function(){
             bossShot.update(deltaTime);
         });
         bossShots = bossShots.filter(bossShot => !bossShot.markedForDeletion);
+    }
+
+    // class related to fireball shot by the player
+    class FoxFire {
+        constructor(gameWidth, gameHeight) {
+            this.gameWidth = gameWidth;
+            this.gameHeight = gameHeight;
+            this.width = 178;
+            this.height = 90;
+            this.image = document.getElementById('foxFireImage');
+            this.x = player.x + 170;
+            this.y = player.y + 75;
+            this.fps = 20;
+            this.frameTimer = 0;
+            this.frameInterval = 1000/this.fps;
+            this.speed = 1;
+            this.markedForDeletion = false;
+            this.hitBoss = false;
+        }
+        draw(context) {
+            context.strokeStyle = 'white';
+            context.beginPath();
+            context.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
+            context.stroke();
+            context.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+        }
+
+        update(deltaTime){
+            if (this.frameTimer > this.frameInterval){
+                this.frameTimer = 0;
+            } else {
+                this.frameTimer += deltaTime;
+            }
+            this.x += (this.speed += 0.28); // increasing velocity projectile 
+            //console.log('speed: ' + this.speed,'current target: ' + currentTarget,'this.y: ' + this.y);
+            if (this.x > this.gameWidth) {
+                this.markedForDeletion = true;
+            }
+        }
+    }
+
+    function handleFoxFire(input, deltaTime) {
+        if (input.keys.indexOf(' ') > -1 && foxFireShots.length === 0) {
+            foxFireShots.push(new FoxFire(canvas.width, canvas.height));
+            //console.log(foxFireShots);
+        }
+        foxFireShots.forEach(foxFire => {
+            //check for collision with boss and reduce skulls
+            const dx = (boss.x + boss.width/2) - (foxFire.x + foxFire.width/2);
+            const dy = (boss.y + boss.height/2) - (foxFire.y + foxFire.height/2);
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < boss.width/2 + foxFire.width/2 && !foxFire.hitBoss) {
+                foxFire.hitBoss = true;
+                bossHealth--; 
+                console.log('boss is hit, health:' + bossHealth);
+                // hides a skull from right to left when hit
+                if (bossHealth >= 0 && bossHealth < 3) {
+                    skulls[bossHealth].visible = false;
+                }
+                // check for victory condition
+                if (bossHealth <= 0) {
+                    gameVictory = true;
+                }
+            }
+            foxFire.draw(ctx);
+            foxFire.update(deltaTime);
+        });
+        foxFireShots = foxFireShots.filter(foxFire => !foxFire.markedForDeletion);
+    }
+
+    //skulls to act as health markers for boss
+    class Skull {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.width = 59;
+            this.height = 60;
+            this.image = document.getElementById('skullImage');
+            this.visible = true;
+        }
+        
+        draw(context) {
+            if (this.visible) {
+                context.drawImage(this.image, this.x, this.y, this.width, this.height);
+            }
+        }
     }
 
     function displayStatusText(context){
@@ -316,6 +423,13 @@ window.addEventListener('load', function(){
             context.fillStyle = 'white';
             context.fillText('GAME OVER, try again!', canvas.width /2 + 2, 202);
         }
+        if (gameVictory){
+            context.textAlign = 'center';
+            context.fillStyle = 'black';
+            context.fillText('Congratz! You done did it!', canvas.width /2, 200);
+            context.fillStyle = 'white';
+            context.fillText('Congratz! You done did it!', canvas.width /2 + 2, 202);
+        }
     }
 
     const input = new InputHandler();
@@ -324,6 +438,17 @@ window.addEventListener('load', function(){
     const enemy1 = new Enemy(canvas.width, canvas.height);
     const boss = new Boss(canvas.width, canvas.height);
     const bossShot = new BossShot(canvas.width, canvas.height);
+    const foxFire = new FoxFire(canvas.width, canvas.height);
+    const skulls = []; //holds the skulls
+    //skull positioning
+    const skullSpacing = 100;
+    const skullStartX = boss.x + (boss.width/2) - (skullSpacing * 1.5);
+    const skullY = boss.y - 100;
+    // add initial skulls to be put above boss as health markers
+    for (let i = 0; i < 3; i++) {
+        skulls.push(new Skull(skullStartX + (i * skullSpacing), skullY));
+    }
+
 
     let lastTime = 0;
     let enemyTimer = 0;
@@ -342,15 +467,16 @@ window.addEventListener('load', function(){
         }    
         player.draw(ctx);
         player.update(input, deltaTime, enemies, bossShots);
-        //handleEnemies(deltaTime);
+        handleEnemies(deltaTime);
         displayStatusText(ctx);
-        //if (score > 2) {
+        if (score > 2) {
             boss.draw(ctx);
             boss.update(deltaTime);
-        //}
-        
+        }
+        skulls.forEach(skull => skull.draw(ctx));
+        handleFoxFire(input, deltaTime);
         handleBossShot(deltaTime);
-        if (!gameOver) requestAnimationFrame(animate);
+        if (!gameOver && !gameVictory) requestAnimationFrame(animate);
     }
     animate(0);
 })
